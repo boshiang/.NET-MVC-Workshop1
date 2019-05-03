@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "圖書維護";
+}
+
+
+
+@using (Html.BeginForm("Index", "Book_maintenance"))
+{
+    <h2>圖書維護</h2>
+    <input type="submit" value="查詢">
+
+}
+<input type="button" value="新增" onclick="javascript:window.location='@Url.Action("InsertBook", "Book_maintenance")'" />
+<input type="button" value="查詢到首頁" onclick="javascript:window.location='@Url.Action("Index", "Book_maintenance")'" />
+<input type="button" value="查詢到查詢" onclick="javascript:window.location='@Url.Action("Serach", "Book_maintenance")'" />
+@ViewBag.EmpAdd
+
+
