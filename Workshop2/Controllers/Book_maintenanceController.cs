@@ -3,173 +3,124 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Workshop2.Models;
 
 namespace Workshop2.Controllers
 {
     public class Book_maintenanceController : Controller
     {
+        BookDatabaseEntities1 db = new BookDatabaseEntities1();
         // GET: Book_maintenance
         [HttpGet()]
-        public ActionResult Index()
+        public ActionResult Index(string SearchBookName, string SearchClassName, string SearchBrrower, string SearchStatus)
         {
-            return View();
-        }
-        [HttpPost()]
-        public ActionResult Index(FormCollection form)
-        {
-            Models.Book_Service Book_Service = new Models.Book_Service();
-            var xxx = Book_Service.GetBook_DatasByCondition(new Models.BookSearchArg()
+            //書名搜尋
+            var Book_Search = from b in db.BookDataBase
+                            select b;
+            if (!String.IsNullOrEmpty(SearchBookName))
             {
-                Book_Name = "123",
-                Book_Class_Name = "",
-                User_CName = "",
-                Book_Status = ""
-            });
-            ViewBag.EmpAdd = xxx[0].Book_Name;
-            return View("Index");
+                Book_Search = Book_Search.Where(s => s.Book_Name.Contains(SearchBookName));
+            }
+            //類別搜尋
+            var BookClassLst = new List<string>();
+            var BookClassQry = from c in db.BookDataBase
+                           orderby c.Book_Class_Name
+                           select c.Book_Class_Name;
+            BookClassLst.AddRange(BookClassQry.Distinct());
+            ViewBag.SearchClassName = new SelectList(BookClassLst);
+            if (!string.IsNullOrEmpty(SearchClassName))
+            {
+                Book_Search = Book_Search.Where(x => x.Book_Class_Name == SearchClassName);
+            }
+            //借閱人搜尋
+            var BookBrrowerLst = new List<string>();
+            var BookBrrowerQry = from b in db.BookDataBase
+                               orderby b.Book_Brrower
+                               select b.Book_Brrower;
+            BookBrrowerLst.AddRange(BookBrrowerQry.Distinct());
+            ViewBag.SearchBrrower = new SelectList(BookBrrowerLst);
+            if (!string.IsNullOrEmpty(SearchBrrower))
+            {
+                Book_Search = Book_Search.Where(x => x.Book_Brrower == SearchBrrower);
+            }
+            //借閱狀態搜尋
+            var BookStatusLst = new List<string>();
+            var BookStatusQry = from bs in db.BookDataBase
+                                orderby bs.Book_Status
+                                select bs.Book_Status;
+            BookStatusLst.AddRange(BookStatusQry.Distinct());
+            ViewBag.SearchStatus = new SelectList(BookStatusLst);
+            if (!string.IsNullOrEmpty(SearchStatus))
+            {
+                Book_Search = Book_Search.Where(x => x.Book_Status == SearchStatus);
+            }
+
+            //var BookData = db.BookDataBase.ToList();
+            return View(Book_Search);
         }
         [HttpGet()]
-        public ActionResult InsertBook()
+        public ActionResult Insert()
         {
-            Models.BookSearch result = new Models.BookSearch();
+            Models.BookDataBase result = new Models.BookDataBase();
+            var BookData = db.BookDataBase.ToList();
             List<SelectListItem> Book_Class_Name = new List<SelectListItem>();
             Book_Class_Name.Add(new SelectListItem()
             {
-                Value = "eg",
-                Text = "English"
+                Value = "文學",
+                Text = "文學"
             });
             Book_Class_Name.Add(new SelectListItem()
             {
-                Value = "ch",
-                Text = "Chinese"
+                Value = "財經",
+                Text = "財經"
             });
             ViewBag.Book_Class_Name = Book_Class_Name;
             return View(result);
         }
         [HttpPost()]
-        public ActionResult InsertBook(Models.Book_Data Data)
+        public ActionResult Insert(BookDataBase bookDataBase)
         {
-            List<SelectListItem> Book_Class_Name = new List<SelectListItem>();
-            Book_Class_Name.Add(new SelectListItem()
+            db.BookDataBase.Add(bookDataBase);
+            try
             {
-                Value = "eg",
-                Text = "English"
-            });
-            Book_Class_Name.Add(new SelectListItem()
+                db.SaveChanges();
+            }
+            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
             {
-                Value = "ch",
-                Text = "Chinese"
-            });
-            ViewBag.Book_Class_Name = Book_Class_Name;
-            ViewBag.label = 123;
-            return View();
+                throw ex;
+            }
+            return RedirectToAction("Index");
         }
-
         [HttpGet()]
-        public ActionResult Search()
+        public ActionResult Delete(int Book_ID)
         {
-            List<SelectListItem> Book_Class_Name = new List<SelectListItem>();
-            Book_Class_Name.Add(new SelectListItem()
-            {
-                Value = "eg",
-                Text = "English"
-            });
-            Book_Class_Name.Add(new SelectListItem()
-            {
-                Value = "ch",
-                Text = "Chinese"
-            });
-            ViewBag.Book_Class_Name = Book_Class_Name;
-
-            List<SelectListItem> Book_Borrower = new List<SelectListItem>();
-            Book_Borrower.Add(new SelectListItem()
-            {
-                Value = "1",
-                Text = "我"
-            });
-            Book_Borrower.Add(new SelectListItem()
-            {
-                Value = "2",
-                Text = "施先生"
-            });
-            ViewBag.Book_Borrower = Book_Borrower;
-
-            List<SelectListItem> Book_Status = new List<SelectListItem>();
-            Book_Status.Add(new SelectListItem()
-            {
-                Value = "A",
-                Text = "可以借出"
-            });
-            Book_Status.Add(new SelectListItem()
-            {
-                Value = "B",
-                Text = "已借出"
-            });
-            Book_Status.Add(new SelectListItem()
-            {
-                Value = "C",
-                Text = "已借出(未領)"
-            });
-            Book_Status.Add(new SelectListItem()
-            {
-                Value = "U",
-                Text = "不可借出"
-            });
-            ViewBag.Book_Status = Book_Status;
-
-            return View();
+            ViewBag.confirm = "是否刪除";
+            var BookData = db.BookDataBase.Where(m => m.Book_ID == Book_ID).FirstOrDefault();
+            db.BookDataBase.Remove(BookData);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+        [HttpGet()]
+        public ActionResult Edit(int Book_ID)
+        {
+            var BookData = db.BookDataBase.Where(m => m.Book_ID == Book_ID).FirstOrDefault();
+            return View(BookData);
         }
         [HttpPost()]
-        public ActionResult Search(Models.BookSearch data) {
-            List<SelectListItem> Book_Class_Name = new List<SelectListItem>();
-            Book_Class_Name.Add(new SelectListItem()
-            {
-                Value = "eg",
-                Text = "English"
-            });
-            Book_Class_Name.Add(new SelectListItem()
-            {
-                Value = "ch",
-                Text = "Chinese"
-            });
-            ViewBag.Book_Class_Name = Book_Class_Name;
-
-            List<SelectListItem> Book_Borrower = new List<SelectListItem>();
-            Book_Borrower.Add(new SelectListItem()
-            {
-                Value = "1",
-                Text = "我"
-            });
-            Book_Borrower.Add(new SelectListItem()
-            {
-                Value = "2",
-                Text = "施先生"
-            });
-            ViewBag.Book_Borrower = Book_Borrower;
-
-            List<SelectListItem> Book_Status = new List<SelectListItem>();
-            Book_Status.Add(new SelectListItem()
-            {
-                Value = "A",
-                Text = "可以借出"
-            });
-            Book_Status.Add(new SelectListItem()
-            {
-                Value = "B",
-                Text = "已借出"
-            });
-            Book_Status.Add(new SelectListItem()
-            {
-                Value = "C",
-                Text = "已借出(未領)"
-            });
-            Book_Status.Add(new SelectListItem()
-            {
-                Value = "U",
-                Text = "不可借出"
-            });
-            ViewBag.Book_Status = Book_Status;
-            return View("Search");
+        public ActionResult Edit(BookDataBase bookDataBase)
+        {
+            int Book_ID = bookDataBase.Book_ID;
+            var BookData = db.BookDataBase.Where(m => m.Book_ID == Book_ID).FirstOrDefault();
+            BookData.Book_Name = bookDataBase.Book_Name;
+            BookData.Book_Author = bookDataBase.Book_Author;
+            BookData.Book_Publisher = bookDataBase.Book_Publisher;
+            BookData.Book_Note = bookDataBase.Book_Note;
+            BookData.Book_BoughtDate = bookDataBase.Book_BoughtDate;
+            BookData.Book_Class_Name = bookDataBase.Book_Class_Name;
+            BookData.Book_Status = bookDataBase.Book_Status;
+            BookData.Book_Brrower = bookDataBase.Book_Brrower;
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }

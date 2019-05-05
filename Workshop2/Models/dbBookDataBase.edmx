@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BookDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BookDataBase">
+          <Key>
+            <PropertyRef Name="Book_ID" />
+          </Key>
+          <Property Name="Book_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Book_Name" Type="nvarchar" MaxLength="120" Nullable="false" />
+          <Property Name="Book_Author" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="Book_Publisher" Type="nvarchar" MaxLength="40" Nullable="false" />
+          <Property Name="Book_Note" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Book_BoughtDate" Type="datetime" Nullable="false" />
+          <Property Name="Book_Class_Name" Type="nvarchar" MaxLength="120" Nullable="false" />
+          <Property Name="Book_Status" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="Book_Brrower" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityContainer Name="BookDatabaseModelStoreContainer">
+          <EntitySet Name="BookDataBase" EntityType="Self.BookDataBase" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BookDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BookDataBase">
+          <Key>
+            <PropertyRef Name="Book_ID" />
+          </Key>
+          <Property Name="Book_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Book_Name" Type="String" MaxLength="120" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Book_Author" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Book_Publisher" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Book_Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Book_BoughtDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Book_Class_Name" Type="String" MaxLength="120" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Book_Status" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" DefaultValue="A" />
+          <Property Name="Book_Brrower" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="BookDatabaseEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BookDataBase" EntityType="Self.BookDataBase" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BookDatabaseModelStoreContainer" CdmEntityContainer="BookDatabaseEntities1">
+          <EntitySetMapping Name="BookDataBase">
+            <EntityTypeMapping TypeName="BookDatabaseModel.BookDataBase">
+              <MappingFragment StoreEntitySet="BookDataBase">
+                <ScalarProperty Name="Book_ID" ColumnName="Book_ID" />
+                <ScalarProperty Name="Book_Name" ColumnName="Book_Name" />
+                <ScalarProperty Name="Book_Author" ColumnName="Book_Author" />
+                <ScalarProperty Name="Book_Publisher" ColumnName="Book_Publisher" />
+                <ScalarProperty Name="Book_Note" ColumnName="Book_Note" />
+                <ScalarProperty Name="Book_BoughtDate" ColumnName="Book_BoughtDate" />
+                <ScalarProperty Name="Book_Class_Name" ColumnName="Book_Class_Name" />
+                <ScalarProperty Name="Book_Status" ColumnName="Book_Status" />
+                <ScalarProperty Name="Book_Brrower" ColumnName="Book_Brrower" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="無" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
