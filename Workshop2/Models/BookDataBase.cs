@@ -18,40 +18,30 @@ namespace Workshop2.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public BookDataBase()
         {
-            this.Book_Status = "A";
+            this.Book_Status = "可以借出";
         }
-    
+
         public int Book_ID { get; set; }
         [DisplayName("書名")]
         [Required(ErrorMessage = "此欄位必填")]
         public string Book_Name { get; set; }
-
         [DisplayName("作者")]
         [Required(ErrorMessage = "此欄位必填")]
         public string Book_Author { get; set; }
-
         [DisplayName("出版社")]
         [Required(ErrorMessage = "此欄位必填")]
         public string Book_Publisher { get; set; }
-
         [DisplayName("內容描述")]
         [Required(ErrorMessage = "此欄位必填")]
-        [DataType(DataType.MultilineText)]
         public string Book_Note { get; set; }
-
         [DisplayName("購買日期")]
         [Required(ErrorMessage = "此欄位必填")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         public System.DateTime Book_BoughtDate { get; set; }
-
         [DisplayName("圖書類別")]
         [Required(ErrorMessage = "此欄位必填")]
         public string Book_Class_Name { get; set; }
-
         [DisplayName("借閱狀態")]
         public string Book_Status { get; set; }
-
         [DisplayName("借閱人")]
         public string Book_Brrower { get; set; }
     }

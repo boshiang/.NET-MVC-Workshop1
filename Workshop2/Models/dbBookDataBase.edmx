@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BookDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BookDatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="BookDataBase">
           <Key>
             <PropertyRef Name="Book_ID" />
@@ -14,16 +14,15 @@
           <Property Name="Book_Author" Type="nvarchar" MaxLength="60" Nullable="false" />
           <Property Name="Book_Publisher" Type="nvarchar" MaxLength="40" Nullable="false" />
           <Property Name="Book_Note" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Book_BoughtDate" Type="datetime" Nullable="false" />
+          <Property Name="Book_BoughtDate" Type="date" Nullable="false" />
           <Property Name="Book_Class_Name" Type="nvarchar" MaxLength="120" Nullable="false" />
-          <Property Name="Book_Status" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="Book_Status" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Book_Brrower" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityContainer Name="BookDatabaseModelStoreContainer">
           <EntitySet Name="BookDataBase" EntityType="Self.BookDataBase" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BookDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -36,9 +35,9 @@
           <Property Name="Book_Author" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Book_Publisher" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Book_Note" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Book_BoughtDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Book_BoughtDate" Type="DateTime" Nullable="false" />
           <Property Name="Book_Class_Name" Type="String" MaxLength="120" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Book_Status" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" DefaultValue="A" />
+          <Property Name="Book_Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" DefaultValue="可以借出" />
           <Property Name="Book_Brrower" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityContainer Name="BookDatabaseEntities1" annotation:LazyLoadingEnabled="true">
