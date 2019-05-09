@@ -5,8 +5,8 @@
 }
 
 <h2>圖書維護</h2>
-<input type="button" value="新增書籍" class="btn btn-default" onclick="javascript:window.location='@Url.Action("Insert", "Book_maintenance")'" />
-@*<p>
+@*<input type="button" value="新增書籍" class="btn btn-default" onclick="javascript:window.location='@Url.Action("Insert", "Book_maintenance")'" />*@
+<p>
     @using (Html.BeginForm("Index", "Book_maintenance", FormMethod.Get))
     {
         <p>
@@ -39,7 +39,7 @@
             
         </p>
     }
-</p>*@
+</p>
     <table class="table">
         <tr>
             <th>
