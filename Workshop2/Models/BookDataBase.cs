@@ -36,6 +36,7 @@ namespace Workshop2.Models
         public string Book_Note { get; set; }
         [DisplayName("購買日期")]
         [Required(ErrorMessage = "此欄位必填")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
         public System.DateTime Book_BoughtDate { get; set; }
         [DisplayName("圖書類別")]
         [Required(ErrorMessage = "此欄位必填")]

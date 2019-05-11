@@ -35,7 +35,7 @@ namespace Workshop2.Controllers
             //借閱人搜尋
             var BookBrrowerLst = new List<string>();
             var BookBrrowerQry = from b in db.BookDataBase
-                               orderby b.Book_Brrower
+                               orderby b.Book_Brrower descending
                                select b.Book_Brrower;
             BookBrrowerLst.AddRange(BookBrrowerQry.Distinct());
             ViewBag.SearchBrrower = new SelectList(BookBrrowerLst);
@@ -94,11 +94,21 @@ namespace Workshop2.Controllers
         [HttpGet()]
         public ActionResult Delete(int Book_ID)
         {
-            ViewBag.confirm = "是否刪除";
             var BookData = db.BookDataBase.Where(m => m.Book_ID == Book_ID).FirstOrDefault();
-            db.BookDataBase.Remove(BookData);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            if (BookData.Book_Status != "已借出")
+            {
+                db.BookDataBase.Remove(BookData);
+                db.SaveChanges();
+                TempData["deleteMessage"] = "已刪除";
+                ViewBag.confirm = "刪除成功";
+                return RedirectToAction("Index");
+            }
+            else {
+                TempData["deleteMessage"] = "資料有誤，無法刪除，請重新操作";
+                ViewBag.confirm = "書籍為「已借出」，無法刪除!";
+                return RedirectToAction("Index");
+            }
+           
         }
         [HttpGet()]
         public ActionResult Edit(int Book_ID)

@@ -9,37 +9,37 @@
 <p>
     @using (Html.BeginForm("Index", "Book_maintenance", FormMethod.Get))
     {
-        <p>
-            <table>
-                <tr>
-                    <td>
-                        書名: <br />
-                        @Html.TextBox("SearchBookName", null, new { @class = "form-control", style = "width: 180px;" })
-                    </td>
-                    <td>
-                        類別: <br />
-                        @Html.DropDownList("SearchClassName", null, "全部", new { @class = "form-control", style = "width: 220px;" })
-                    </td>
-                    <td>
-                        借閱人: <br />
-                        @Html.DropDownList("SearchBrrower", null, "全部", new { @class = "form-control", style = "width: 220px;" })
-                    </td>
-                    <td>
-                        借閱狀態: <br />
-                        @Html.DropDownList("SearchStatus", null, "全部", new { @class = "form-control", style = "width: 220px;" })
-                    </td>
-                    <td>
-                        <br />
-                        <input type="submit" value="查詢" class="btn btn-default" />
-                        <input type="reset" value="清除" class="btn btn-default" onclick="javascript:window.location='@Url.Action("Index")'" />
-                        <input type="button" value="新增" class="btn btn-default" onclick="javascript:window.location='@Url.Action("Insert", "Book_maintenance")'" />
-                    </td>
-                </tr>
-            </table>
-            
-        </p>
-    }
-</p>
+    <p>
+        <table>
+            <tr>
+                <td>
+                    書名: <br />
+                    @Html.TextBox("SearchBookName", null, new { @class = "form-control", style = "width: 180px;" })
+                </td>
+                <td>
+                    類別: <br />
+                    @Html.DropDownList("SearchClassName", null, "全部", new { @class = "form-control", style = "width: 220px;" })
+                </td>
+                <td>
+                    借閱人: <br />
+                    @Html.DropDownList("SearchBrrower", null, "全部", new { @class = "form-control", style = "width: 220px;" })
+                </td>
+                <td>
+                    借閱狀態: <br />
+                    @Html.DropDownList("SearchStatus", null, "全部", new { @class = "form-control", style = "width: 220px;" })
+                </td>
+                <td>
+                    <br />
+                    <input type="submit" value="查詢" class="btn btn-default" />
+                    <input type="reset" value="清除" class="btn btn-default" onclick="javascript:window.location='@Url.Action("Index")'" />
+                    <input type="button" value="新增" class="btn btn-default" onclick="javascript:window.location='@Url.Action("Insert", "Book_maintenance")'" />
+                </td>
+            </tr>
+        </table>
+
+    </p>
+}
+    </p>
     <table class="table">
         <tr>
             <th>
@@ -64,27 +64,44 @@
 
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Book_Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Book_Class_Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Book_BoughtDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Book_Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Book_Brrower)
-            </td>
-            <td>
-                <input type="button" value="編輯" class="btn btn-default" onclick="javascript:window.location='@Url.Action("Edit", "Book_maintenance", new { Book_ID = item.Book_ID })'" />
-                <input type="button" value="刪除" class="btn btn-default" onclick="javascript:window.location='@Url.Action("Delete", "Book_maintenance", new { Book_ID = item.Book_ID })'" />
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book_Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book_Class_Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book_BoughtDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book_Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book_Brrower)
+                </td>
+                <td>
+                    <input type="button" value="編輯" class="btn btn-default" onclick="javascript:window.location='@Url.Action("Edit", "Book_maintenance", new { Book_ID = item.Book_ID })'" />
+                    <input type="button" value="刪除" class="btn btn-default" onclick="javascript:window.location='@Url.Action("Delete", "Book_maintenance", new { Book_ID = item.Book_ID })'" ; />
+                    @*<input type="button" value="刪除" class="btn btn-default" onclick="'function(){DoDelete();Confirm_Form()}'" ; />*@
+
+                </td>
+            </tr>
         }
 
     </table>
+<script>
+    @*function DoDelete() {
+        @Url.Action("Delete", "Book_maintenance", new { Book_ID = item.Book_ID })
+    }*@
+    function Confirm_Form() {
+        if (confirm("您確定要刪除嗎?")) {
+            alert(@ViewBag.confirm);
+            return true;
+        } else {
+            alert("取消！");
+            return false;
+        }
+            
+    }
+</script>
